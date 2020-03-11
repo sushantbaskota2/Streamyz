@@ -1,57 +1,21 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { createStream } from '../../actions';
+import StreamForm from './StreamForm';
 
 class StreamCreate extends React.Component {
-    renderInput = ({ input, label, meta }) => {
-        const className = `field ${meta.error && meta.touched ? 'error' : ''}`;
-        return (
-            <div className={className}>
-                <label>{label}</label>
-                <input {...input} autoComplete='off' />
-                <div>{this.renderError(meta)}</div>
-            </div>
-        );
+    onSubmit = (formProps) => {
+        this.props.createStream(formProps);
     };
-
-    renderError({ error, touched }) {
-        if (touched && error) {
-            return (
-                <div className='ui error message'>
-                    <div className='header'>{error}</div>
-                </div>
-            );
-        }
-    }
-
-    onSubmit(formProps) {}
 
     render() {
         return (
             <div>
-                <form className='ui form error' onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                    <Field name='title' component={this.renderInput} label='Enter Title' />
-                    <Field name='description' component={this.renderInput} label='Enter Description' />
-                    <button className='ui button primary' type='submit'>
-                        Submit
-                    </button>
-                </form>
+                <h3>Create a stream</h3>
+                <StreamForm onSubmit={this.onSubmit} />
             </div>
         );
     }
 }
 
-const validate = (formValues) => {
-    const errors = {};
-    if (!formValues.title) {
-        errors.title = 'You need to enter a title';
-    }
-    if (!formValues.description) {
-        errors.description = 'You need to enter a description';
-    }
-    return errors;
-};
-
-export default reduxForm({
-    form: 'streamCreate',
-    validate
-})(StreamCreate);
+export default connect(null, { createStream })(StreamCreate);
