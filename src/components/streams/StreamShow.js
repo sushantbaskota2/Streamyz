@@ -7,11 +7,18 @@ class StreamShow extends React.Component {
     componentDidMount() {
         this.props.fetchStream(this.props.match.params.id);
     }
+
     render() {
+        const { title, description } = this.props.stream;
         if (!this.props.stream) {
             return <Spinner />;
         }
-        return <div>asdfasdasd</div>;
+        return (
+            <div>
+                <h1>{title}</h1>
+                <h5>{description}</h5>
+            </div>
+        );
     }
 }
 
